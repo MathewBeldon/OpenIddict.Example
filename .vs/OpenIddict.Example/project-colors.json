@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "c51c1472-a528-4fe9-8b39-2e49f064a387": {
+      "ProjectGuid": "c51c1472-a528-4fe9-8b39-2e49f064a387",
+      "DisplayName": "OpenIddict.Example.Server",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
