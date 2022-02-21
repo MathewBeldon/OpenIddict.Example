@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OpenIddict.Example.Server.Persistance;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace OpenIddict.Example.Server
 {
@@ -19,12 +21,20 @@ namespace OpenIddict.Example.Server
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                // Configure Entity Framework Core to use Microsoft SQL Server.
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-
-                // Register the entity sets needed by OpenIddict.
-                // Note: use the generic overload if you need to replace the default OpenIddict entities.
                 options.UseOpenIddict();
+            });
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.ClaimsIdentity.UserNameClaimType = Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = Claims.Role;
+                options.ClaimsIdentity.EmailClaimType = Claims.Email;
             });
 
             services.AddOpenIddict()
@@ -32,39 +42,36 @@ namespace OpenIddict.Example.Server
                 // Register the OpenIddict core components.
                 .AddCore(options =>
                 {
-            // Configure OpenIddict to use the Entity Framework Core stores and models.
-            // Note: call ReplaceDefaultEntities() to replace the default entities.
-            options.UseEntityFrameworkCore()
+                    // Configure OpenIddict to use the Entity Framework Core stores and models.
+                    // Note: call ReplaceDefaultEntities() to replace the default entities.
+                    options.UseEntityFrameworkCore()
                            .UseDbContext<ApplicationDbContext>();
                 })
                 // Register the OpenIddict server components.
                 .AddServer(options =>
                 {
-                // Enable the token endpoint.
-                options.SetTokenEndpointUris("/connect/token");
+                    // Enable the token endpoint.
+                    options.SetTokenEndpointUris("/connect/token");
 
-                // Enable the client credentials flow.
-                options.AllowClientCredentialsFlow();
+                    // Enable the client credentials flow.
+                    options.AllowPasswordFlow();
 
-                // Register the signing and encryption credentials.
-                options.AddDevelopmentEncryptionCertificate()
-                               .AddDevelopmentSigningCertificate();
+                    options.AcceptAnonymousClients();
 
-                // Register the ASP.NET Core host and configure the ASP.NET Core options.
-                options.UseAspNetCore()
-                               .EnableTokenEndpointPassthrough();
-                    })
+                    // Register the signing and encryption credentials.
+                    options.AddDevelopmentEncryptionCertificate()
+                        .AddDevelopmentSigningCertificate();
 
-                    // Register the OpenIddict validation components.
-                    .AddValidation(options =>
-                    {
-                // Import the configuration from the local OpenIddict server instance.
-                options.UseLocalServer();
+                    // Register the ASP.NET Core host and configure the ASP.NET Core options.
+                    options.UseAspNetCore()
+                        .EnableTokenEndpointPassthrough();
+                })
 
-                // Register the ASP.NET Core host.
-                options.UseAspNetCore();
+                .AddValidation(options =>
+                {
+                    options.UseLocalServer();
+                    options.UseAspNetCore();
                 });
-
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
