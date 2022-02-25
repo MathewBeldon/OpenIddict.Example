@@ -58,17 +58,15 @@ namespace OpenIddict.Example.Server.Controllers
                     return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
                 }
 
-                // Create a new ClaimsPrincipal containing the claims that
-                // will be used to create an id_token, a token or a code.
                 var principal = await _signInManager.CreateUserPrincipalAsync(user);
 
                 // Set the list of scopes granted to the client application.
                 principal.SetScopes(new[]
                 {
-                Scopes.OpenId,
-                Scopes.Email,
-                Scopes.Profile,
-                Scopes.Roles
+                    Scopes.OpenId,
+                    Scopes.Email,
+                    Scopes.Profile,
+                    Scopes.Roles
                 }.Intersect(request.GetScopes()));
 
                 foreach (var claim in principal.Claims)
