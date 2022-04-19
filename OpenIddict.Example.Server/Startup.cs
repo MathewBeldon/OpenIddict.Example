@@ -1,40 +1,31 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using OpenIddict.Example.Server.Persistance;
-using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace OpenIddict.Example.Server
+using static OpenIddict.Server.OpenIddictServerEvents;
+
+namespace OpenIddict.Example.IdP
 {
-    public sealed class Startup
+    public class Startup
     {
         public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get; }
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
-        {
-            Configuration = configuration;
-            Environment = environment;
-        }
-
+        public Startup(IConfiguration configuration) => Configuration = configuration;
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllersWithViews();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.LoginPath = "/account/login";
+                });
+
+            services.AddDbContext<DbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                // Configure the context to use an in-memory store.
+                options.UseInMemoryDatabase(nameof(DbContext));
+
+                // Register the entity sets needed by OpenIddict.
                 options.UseOpenIddict();
-            });
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.ClaimsIdentity.UserNameClaimType = Claims.Name;
-                options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
-                options.ClaimsIdentity.RoleClaimType = Claims.Role;
-                options.ClaimsIdentity.EmailClaimType = Claims.Email;
             });
 
             services.AddOpenIddict()
@@ -42,57 +33,78 @@ namespace OpenIddict.Example.Server
                 // Register the OpenIddict core components.
                 .AddCore(options =>
                 {
-                    // Configure OpenIddict to use the Entity Framework Core stores and models.
-                    // Note: call ReplaceDefaultEntities() to replace the default entities.
+                    // Configure OpenIddict to use the EF Core stores/models.
                     options.UseEntityFrameworkCore()
-                           .UseDbContext<ApplicationDbContext>();
+                        .UseDbContext<DbContext>();
                 })
-                // Register the OpenIddict server components.
+
                 .AddServer(options =>
                 {
-                    // Enable the token endpoint.
-                    options.SetTokenEndpointUris("/connect/token");
+                    // Enable the authorization, token, introspection and userinfo endpoints.
+                    options.SetAuthorizationEndpointUris(Configuration["OpenIddict:Endpoints:Authorization"])
+                           .SetTokenEndpointUris(Configuration["OpenIddict:Endpoints:Token"])
+                           .SetIntrospectionEndpointUris(Configuration["OpenIddict:Endpoints:Introspection"])
+                           .SetUserinfoEndpointUris(Configuration["OpenIddict:Endpoints:Userinfo"]);
 
-                    // Enable the client credentials flow.
-                    options.AllowPasswordFlow();
+                    // Enable the authorization code, implicit and the refresh token flows.
+                    options.AllowAuthorizationCodeFlow()
+                           .AllowImplicitFlow()
+                           .AllowRefreshTokenFlow();
 
-                    options.AcceptAnonymousClients();
+                    // Expose all the supported claims in the discovery document.
+                    options.RegisterClaims(Configuration.GetSection("OpenIddict:Claims").Get<string[]>());
 
-                    // Register the signing and encryption credentials.
-                    options.AddDevelopmentEncryptionCertificate()
-                        .AddDevelopmentSigningCertificate();
+                    // Expose all the supported scopes in the discovery document.
+                    options.RegisterScopes(Configuration.GetSection("OpenIddict:Scopes").Get<string[]>());
 
-                    // Register the ASP.NET Core host and configure the ASP.NET Core options.
+                    // Note: an ephemeral signing key is deliberately used to make the "OP-Rotation-OP-Sig"
+                    // test easier to run as restarting the application is enough to rotate the keys.
+                    options.AddEphemeralEncryptionKey()
+                           .AddEphemeralSigningKey();
+
+                    // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
+                    //
+                    // Note: the pass-through mode is not enabled for the token endpoint
+                    // so that token requests are automatically handled by OpenIddict.
                     options.UseAspNetCore()
-                        .EnableTokenEndpointPassthrough();
+                           .EnableAuthorizationEndpointPassthrough()
+                           .EnableAuthorizationRequestCaching();
+
+                    // Register the event handler responsible for populating userinfo responses.
+                    options.AddEventHandler<HandleUserinfoRequestContext>(options =>
+                        options.UseSingletonHandler<Handlers.PopulateUserinfo>());
                 })
 
                 .AddValidation(options =>
                 {
+                    // Import the configuration from the local OpenIddict server instance.
                     options.UseLocalServer();
+
+                    // Register the ASP.NET Core host.
                     options.UseAspNetCore();
+
+                    // Enable authorization entry validation, which is required to be able
+                    // to reject access tokens retrieved from a revoked authorization code.
+                    options.EnableAuthorizationEntryValidation();
                 });
 
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddHostedService<Worker>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {            
+        {
             if (env.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapDefaultControllerRoute();
             });
         }

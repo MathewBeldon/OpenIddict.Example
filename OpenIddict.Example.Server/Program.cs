@@ -1,21 +1,17 @@
-namespace OpenIddict.Example.Server
+namespace OpenIddict.Example.IdP
 {
-    public sealed class Program
+    public class Program
     {
-        public static Task Main(string[] args) =>
-            CreateHost(args).RunAsync();
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
 
-
-        public static IHost CreateHost(string[] args) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((env, config) =>
-                {
-                    config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-                    config.AddJsonFile($"appsettings.{env.HostingEnvironment.EnvironmentName}.json", optional: true, reloadOnChange: true);
-                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).Build();
+                });
     }
 }

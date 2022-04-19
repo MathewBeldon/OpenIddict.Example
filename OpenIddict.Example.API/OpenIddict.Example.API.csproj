@@ -9,7 +9,8 @@
   <ItemGroup>
     <PackageReference Include="OpenIddict.Validation.AspNetCore" Version="3.1.1" />
     <PackageReference Include="OpenIddict.Validation.SystemNetHttp" Version="3.1.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.3.0" />
   </ItemGroup>
 
 </Project>
