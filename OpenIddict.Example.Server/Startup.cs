@@ -79,7 +79,6 @@ namespace OpenIddict.Example.IdP
                 {
                     // Import the configuration from the local OpenIddict server instance.
                     options.UseLocalServer();
-
                     // Register the ASP.NET Core host.
                     options.UseAspNetCore();
 
