@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OpenIddict.Example.IdP.ViewModels
+namespace OpenIddict.Example.IdP.API.ViewModels
 {
     public sealed class LoginViewModel
     {

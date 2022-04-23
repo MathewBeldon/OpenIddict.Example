@@ -7,7 +7,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenIddict.Example.API", "O
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1B24C94E-0104-40C9-A5CE-CE7773B5D8BF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenIddict.Example.Server", "OpenIddict.Example.Server\OpenIddict.Example.Server.csproj", "{5813A140-3955-4E1C-B7AC-DCED7B2618EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenIddict.Example.IdP.API", "OpenIddict.Example.Server\OpenIddict.Example.IdP.API.csproj", "{5813A140-3955-4E1C-B7AC-DCED7B2618EF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenIddict.Example.IdP.Persistence", "OpenIddict.Example.Persistance\OpenIddict.Example.IdP.Persistence.csproj", "{8EEDBD9D-5F1E-4CAD-8156-D80DF42A1D4B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenIddict.Example.IdP.Application", "OpenIddict.Example.Application\OpenIddict.Example.IdP.Application.csproj", "{D175089B-077D-482C-B253-EA17BFA303B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenIddict.Example.IdP", "OpenIddict.Example.IdP", "{8B4D456D-73D1-4481-9EED-59C3FBD366BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenIddict.Example.ResourceServer", "OpenIddict.Example.ResourceServer", "{51F76F77-43C6-4446-9236-D7A0C83D8FCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,13 +31,25 @@ Global
 		{5813A140-3955-4E1C-B7AC-DCED7B2618EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5813A140-3955-4E1C-B7AC-DCED7B2618EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5813A140-3955-4E1C-B7AC-DCED7B2618EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EEDBD9D-5F1E-4CAD-8156-D80DF42A1D4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EEDBD9D-5F1E-4CAD-8156-D80DF42A1D4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EEDBD9D-5F1E-4CAD-8156-D80DF42A1D4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EEDBD9D-5F1E-4CAD-8156-D80DF42A1D4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D175089B-077D-482C-B253-EA17BFA303B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D175089B-077D-482C-B253-EA17BFA303B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D175089B-077D-482C-B253-EA17BFA303B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D175089B-077D-482C-B253-EA17BFA303B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AED49172-2882-4B3A-A550-6A7855BC3794} = {1B24C94E-0104-40C9-A5CE-CE7773B5D8BF}
-		{5813A140-3955-4E1C-B7AC-DCED7B2618EF} = {1B24C94E-0104-40C9-A5CE-CE7773B5D8BF}
+		{AED49172-2882-4B3A-A550-6A7855BC3794} = {51F76F77-43C6-4446-9236-D7A0C83D8FCB}
+		{5813A140-3955-4E1C-B7AC-DCED7B2618EF} = {8B4D456D-73D1-4481-9EED-59C3FBD366BF}
+		{8EEDBD9D-5F1E-4CAD-8156-D80DF42A1D4B} = {8B4D456D-73D1-4481-9EED-59C3FBD366BF}
+		{D175089B-077D-482C-B253-EA17BFA303B1} = {8B4D456D-73D1-4481-9EED-59C3FBD366BF}
+		{8B4D456D-73D1-4481-9EED-59C3FBD366BF} = {1B24C94E-0104-40C9-A5CE-CE7773B5D8BF}
+		{51F76F77-43C6-4446-9236-D7A0C83D8FCB} = {1B24C94E-0104-40C9-A5CE-CE7773B5D8BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1056F4A1-8E8D-40B0-B1F5-1C47FA3D861A}

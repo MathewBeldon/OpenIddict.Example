@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
 
-namespace OpenIddict.Example.IdP
+namespace OpenIddict.Example.IdP.API
 {
     public class Worker : IHostedService
     {

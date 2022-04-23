@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OpenIddict.Example.IdP.ViewModels;
+using OpenIddict.Example.IdP.API.ViewModels;
 using System.Security.Claims;
 
-namespace OpenIddict.Example.IdP.Controllers
+namespace OpenIddict.Example.IdP.API.Controllers
 {
     public sealed class AccountController : Controller
     {

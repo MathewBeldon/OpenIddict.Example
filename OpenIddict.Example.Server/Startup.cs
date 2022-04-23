@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-
+using OpenIddict.Example.IdP.Persistence;
 using static OpenIddict.Server.OpenIddictServerEvents;
 
-namespace OpenIddict.Example.IdP
+namespace OpenIddict.Example.IdP.API
 {
     public class Startup
     {
@@ -12,21 +12,12 @@ namespace OpenIddict.Example.IdP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            services.AddPersitenceServices(Configuration);
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
                     options.LoginPath = "/account/login";
                 });
-
-            services.AddDbContext<DbContext>(options =>
-            {
-                // Configure the context to use an in-memory store.
-                options.UseInMemoryDatabase(nameof(DbContext));
-
-                // Register the entity sets needed by OpenIddict.
-                options.UseOpenIddict();
-            });
 
             services.AddOpenIddict()
 
@@ -70,9 +61,6 @@ namespace OpenIddict.Example.IdP
                            .EnableAuthorizationEndpointPassthrough()
                            .EnableAuthorizationRequestCaching();
 
-                    // Register the event handler responsible for populating userinfo responses.
-                    options.AddEventHandler<HandleUserinfoRequestContext>(options =>
-                        options.UseSingletonHandler<Handlers.PopulateUserinfo>());
                 })
 
                 .AddValidation(options =>

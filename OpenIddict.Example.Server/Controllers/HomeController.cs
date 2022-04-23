@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OpenIddict.Example.IdP.Controllers
+namespace OpenIddict.Example.IdP.API.Controllers
 {
     public sealed class HomeController : Controller
     {
