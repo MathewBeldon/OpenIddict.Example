@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OpenIddict.Example.Application\OpenIddict.Example.IdP.Application.csproj" />
     <ProjectReference Include="..\OpenIddict.Example.Persistance\OpenIddict.Example.IdP.Persistence.csproj" />
   </ItemGroup>
 

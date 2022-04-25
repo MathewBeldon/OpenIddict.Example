@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OpenIddict.Example.IdP.Persistence;
 using static OpenIddict.Server.OpenIddictServerEvents;
 
-namespace OpenIddict.Example.IdP.API
+namespace OpenIddict.Example.IdP.Server
 {
     public class Startup
     {

@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "OpenIddict.Example.IdP.API": {
+    "OpenIddict.Example.IdP.Server": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

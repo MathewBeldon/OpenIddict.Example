@@ -1,4 +1,4 @@
-namespace OpenIddict.Example.IdP.API
+namespace OpenIddict.Example.IdP.Server
 {
     public class Program
     {
