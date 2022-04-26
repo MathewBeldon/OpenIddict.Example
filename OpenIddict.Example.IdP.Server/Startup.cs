@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using OpenIddict.Example.IdP.Persistence;
-using static OpenIddict.Server.OpenIddictServerEvents;
+﻿using OpenIddict.Example.IdP.Persistence;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace OpenIddict.Example.IdP.Server
 {
@@ -13,10 +11,12 @@ namespace OpenIddict.Example.IdP.Server
         {
             services.AddControllersWithViews();
             services.AddPersitenceServices(Configuration);
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+
+            services.AddAuthentication()
+                .AddGitHub(options =>
                 {
-                    options.LoginPath = "/account/login";
+                    options.ClientId = "";
+                    options.ClientSecret = "";
                 });
 
             services.AddOpenIddict()
@@ -26,40 +26,43 @@ namespace OpenIddict.Example.IdP.Server
                 {
                     // Configure OpenIddict to use the EF Core stores/models.
                     options.UseEntityFrameworkCore()
-                        .UseDbContext<DbContext>();
+                        .UseDbContext<AppDbContext>();
                 })
 
                 .AddServer(options =>
                 {
-                    // Enable the authorization, token, introspection and userinfo endpoints.
-                    options.SetAuthorizationEndpointUris(Configuration["OpenIddict:Endpoints:Authorization"])
-                           .SetTokenEndpointUris(Configuration["OpenIddict:Endpoints:Token"])
-                           .SetIntrospectionEndpointUris(Configuration["OpenIddict:Endpoints:Introspection"])
-                           .SetUserinfoEndpointUris(Configuration["OpenIddict:Endpoints:Userinfo"]);
+                    // Enable the authorization, device, introspection,
+                    // logout, token, userinfo and verification endpoints.
+                    options.SetAuthorizationEndpointUris("/connect/authorize")
+                           .SetDeviceEndpointUris("/connect/device")
+                           .SetIntrospectionEndpointUris("/connect/introspect")
+                           .SetLogoutEndpointUris("/connect/logout")
+                           .SetTokenEndpointUris("/connect/token")
+                           .SetUserinfoEndpointUris("/connect/userinfo")
+                           .SetVerificationEndpointUris("/connect/verify");
 
-                    // Enable the authorization code, implicit and the refresh token flows.
+                    // Note: this sample uses the code, device code, password and refresh token flows, but you
+                    // can enable the other flows if you need to support implicit or client credentials.
                     options.AllowAuthorizationCodeFlow()
-                           .AllowImplicitFlow()
+                           .AllowDeviceCodeFlow()
+                           .AllowPasswordFlow()
                            .AllowRefreshTokenFlow();
 
-                    // Expose all the supported claims in the discovery document.
-                    options.RegisterClaims(Configuration.GetSection("OpenIddict:Claims").Get<string[]>());
+                    options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "demo_api");
 
-                    // Expose all the supported scopes in the discovery document.
-                    options.RegisterScopes(Configuration.GetSection("OpenIddict:Scopes").Get<string[]>());
+                    options.AddDevelopmentEncryptionCertificate()
+                           .AddDevelopmentSigningCertificate();
 
-                    // Note: an ephemeral signing key is deliberately used to make the "OP-Rotation-OP-Sig"
-                    // test easier to run as restarting the application is enough to rotate the keys.
-                    options.AddEphemeralEncryptionKey()
-                           .AddEphemeralSigningKey();
+                    options.RequireProofKeyForCodeExchange();
 
-                    // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
-                    //
-                    // Note: the pass-through mode is not enabled for the token endpoint
-                    // so that token requests are automatically handled by OpenIddict.
                     options.UseAspNetCore()
+                           .EnableStatusCodePagesIntegration()
                            .EnableAuthorizationEndpointPassthrough()
-                           .EnableAuthorizationRequestCaching();
+                           .EnableLogoutEndpointPassthrough()
+                           .EnableTokenEndpointPassthrough()
+                           .EnableUserinfoEndpointPassthrough()
+                           .EnableVerificationEndpointPassthrough()
+                           .DisableTransportSecurityRequirement();
 
                 })
 

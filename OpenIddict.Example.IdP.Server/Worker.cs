@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
+using OpenIddict.Example.IdP.Persistence;
 
 namespace OpenIddict.Example.IdP.Server
 {
@@ -20,7 +21,7 @@ namespace OpenIddict.Example.IdP.Server
         {
             await using var scope = _serviceProvider.CreateAsyncScope();
 
-            var context = scope.ServiceProvider.GetRequiredService<DbContext>();
+            var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await context.Database.EnsureCreatedAsync();
 
             var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
