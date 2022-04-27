@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Example.IdP.Persistence.Models;
-using OpenIddict.Example.IdP.Server.ViewModels;
+using OpenIddict.Example.IdP.Server.ViewModels.Account;
+using OpenIddict.Sandbox.AspNetCore.Server.ViewModels.Account;
+using System.Security.Claims;
 
 namespace OpenIddict.Example.IdP.Server.Controllers
 {
@@ -93,6 +95,83 @@ namespace OpenIddict.Example.IdP.Server.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        {
+            // Request a redirect to the external login provider.
+            var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+        }
+
+        //
+        // GET: /Account/ExternalLoginCallback
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null)
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info is null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            // Sign in the user with this external login provider if the user already has a login.
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            if (result.Succeeded)
+            {
+                return RedirectToLocal(returnUrl);
+            }
+            //if (result.RequiresTwoFactor)
+            //{
+            //    return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl });
+            //}
+            if (result.IsLockedOut)
+            {
+                return View("Lockout");
+            }
+            else
+            {
+                // If the user does not have an account, then ask the user to create an account.
+                ViewData["ReturnUrl"] = returnUrl;
+                ViewData["LoginProvider"] = info.LoginProvider;
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email });
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string? returnUrl = null)
+        {
+            if (ModelState.IsValid)
+            {
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info is null)
+                {
+                    return View("ExternalLoginFailure");
+                }
+                var user = new AppUser { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
+                {
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+                AddErrors(result);
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(model);
         }
 
         #region helpers

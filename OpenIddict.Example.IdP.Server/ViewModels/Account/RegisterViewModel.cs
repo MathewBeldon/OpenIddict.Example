@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OpenIddict.Example.IdP.Server.ViewModels
+namespace OpenIddict.Example.IdP.Server.ViewModels.Account
 {
-    public class RegisterViewModel
+    public sealed class RegisterViewModel
     {
         [Required]
         [EmailAddress]
