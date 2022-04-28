@@ -19,6 +19,13 @@ namespace OpenIddict.Example.IdP.Server
                     options.ClientSecret = "";
                 });
 
+            services.AddAuthentication()
+                .AddOkta(options =>
+                {
+                    options.ClientId = "";
+                    options.ClientSecret = "";
+                });
+
             services.AddOpenIddict()
 
                 // Register the OpenIddict core components.
