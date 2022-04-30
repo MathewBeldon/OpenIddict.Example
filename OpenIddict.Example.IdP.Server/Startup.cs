@@ -1,4 +1,6 @@
-﻿using OpenIddict.Example.IdP.Persistence;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.IdentityModel.Tokens;
+using OpenIddict.Example.IdP.Persistence;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace OpenIddict.Example.IdP.Server
@@ -12,19 +14,19 @@ namespace OpenIddict.Example.IdP.Server
             services.AddControllersWithViews();
             services.AddPersitenceServices(Configuration);
 
-            services.AddAuthentication()
-                .AddGitHub(options =>
-                {
-                    options.ClientId = "";
-                    options.ClientSecret = "";
-                });
+            //services.AddAuthentication()
+            //    .AddGitHub(options =>
+            //    {
+            //        options.ClientId = "";
+            //        options.ClientSecret = "";
+            //    });
 
-            services.AddAuthentication()
-                .AddOkta(options =>
-                {
-                    options.ClientId = "";
-                    options.ClientSecret = "";
-                });
+            //services.AddAuthentication()
+            //    .AddOkta(options =>
+            //    {
+            //        options.ClientId = "";
+            //        options.ClientSecret = "";
+            //    });
 
             services.AddOpenIddict()
 
@@ -55,7 +57,10 @@ namespace OpenIddict.Example.IdP.Server
                            .AllowPasswordFlow()
                            .AllowRefreshTokenFlow();
 
-                    options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "demo_api");
+                    options.AddEncryptionKey(new SymmetricSecurityKey(
+                        Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")));
+
+                    options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "openiddict_resource");
 
                     options.AddDevelopmentEncryptionCertificate()
                            .AddDevelopmentSigningCertificate();
@@ -84,7 +89,7 @@ namespace OpenIddict.Example.IdP.Server
                     // to reject access tokens retrieved from a revoked authorization code.
                     options.EnableAuthorizationEntryValidation();
                 });
-
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
             services.AddHostedService<Worker>();
         }
 
