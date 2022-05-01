@@ -20,7 +20,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        [HttpGet]
+        [HttpGet("~/identity/account/login")]
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
@@ -28,7 +28,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("~/identity/account/login")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
@@ -60,7 +60,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             return View(model);
         }
 
-        [HttpGet]
+        [HttpGet("~/identity/account/register")]
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
@@ -68,7 +68,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("~/identity/account/register")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string? returnUrl = null)
@@ -89,7 +89,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost("~/identity/account/logoff")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
@@ -97,7 +97,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
-        [HttpPost]
+        [HttpPost("~/identity/account/externallogin")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
@@ -110,7 +110,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
 
         //
         // GET: /Account/ExternalLoginCallback
-        [HttpGet]
+        [HttpGet("~/identity/account/externallogincallback")]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null)
         {
@@ -144,7 +144,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("~/identity/account/externalloginconfirmation")]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string? returnUrl = null)

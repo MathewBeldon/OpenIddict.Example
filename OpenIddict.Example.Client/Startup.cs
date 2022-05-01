@@ -22,28 +22,28 @@ namespace OpenIddict.Example.Client
 
             .AddOpenIdConnect(options =>
             {
-            // Note: these settings must match the application details
-            // inserted in the database at the server level.
-            options.ClientId = "postman";
-            options.ClientSecret = "postman-secret";
+                // Note: these settings must match the application details
+                // inserted in the database at the server level.
+                options.ClientId = "postman2";
+                //options.ClientSecret = "postman-secret";
 
-            options.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = false;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.SaveTokens = true;
 
-            // Use the authorization code flow.
-            options.ResponseType = OpenIdConnectResponseType.Code;
+                // Use the authorization code flow.
+                options.ResponseType = OpenIdConnectResponseType.Code;
                 options.AuthenticationMethod = OpenIdConnectRedirectBehavior.RedirectGet;
 
-            // Note: setting the Authority allows the OIDC client middleware to automatically
-            // retrieve the identity provider's configuration and spare you from setting
-            // the different endpoints URIs or the token validation parameters explicitly.
-            options.Authority = "https://localhost:7213/";
+                // Note: setting the Authority allows the OIDC client middleware to automatically
+                // retrieve the identity provider's configuration and spare you from setting
+                // the different endpoints URIs or the token validation parameters explicitly.
+                options.Authority = "https://localhost:7213/";
 
-            options.Scope.Add("openid");
+                options.Scope.Add("openid");
 
-            // Disable the built-in JWT claims mapping feature.
-            options.MapInboundClaims = false;
+                // Disable the built-in JWT claims mapping feature.
+                options.MapInboundClaims = false;
 
                 options.TokenValidationParameters.NameClaimType = "name";
                 options.TokenValidationParameters.RoleClaimType = "role";

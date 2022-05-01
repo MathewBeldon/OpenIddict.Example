@@ -21,8 +21,7 @@ namespace OpenIddict.Example.IdP.Persistence
 
             service.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders()
-                .AddDefaultUI();
+                .AddDefaultTokenProviders();
 
             service.Configure<IdentityOptions>(options =>
             {

@@ -61,11 +61,11 @@ namespace OpenIddict.Example.IdP.Server
                 var manager = provider.GetRequiredService<IOpenIddictApplicationManager>();
 
                 // Blazor Hosted
-                if (await manager.FindByClientIdAsync("postman") is null)
+                if (await manager.FindByClientIdAsync("postman2") is null)
                 {
                     await manager.CreateAsync(new OpenIddictApplicationDescriptor
                     {
-                        ClientId = "postman",
+                        ClientId = "postman2",
                         ConsentType = ConsentTypes.Explicit,
                         DisplayName = "PKCE",
                         PostLogoutRedirectUris =
@@ -76,7 +76,40 @@ namespace OpenIddict.Example.IdP.Server
                         {
                             new Uri("https://localhost:7060/signin-oidc")
                         },
-                        ClientSecret = "postman-secret",
+                        Permissions =
+                        {
+                            Permissions.Endpoints.Authorization,
+                            Permissions.Endpoints.Logout,
+                            Permissions.Endpoints.Token,
+                            Permissions.GrantTypes.AuthorizationCode,
+                            Permissions.ResponseTypes.Code,
+                            Permissions.Scopes.Email,
+                            Permissions.Scopes.Profile,
+                            Permissions.Scopes.Roles,
+                            Permissions.Prefixes.Scope + "openiddict_resource"
+                        },
+                        Requirements =
+                        {
+                            Requirements.Features.ProofKeyForCodeExchange
+                        }
+                    });
+                }
+
+                if (await manager.FindByClientIdAsync("postman4") is null)
+                {
+                    await manager.CreateAsync(new OpenIddictApplicationDescriptor
+                    {
+                        ClientId = "postman4",
+                        ConsentType = ConsentTypes.Explicit,
+                        DisplayName = "PKCE2",
+                        PostLogoutRedirectUris =
+                        {
+                            new Uri("https://localhost:44339/signout-callback-oidc")
+                        },
+                        RedirectUris =
+                        {
+                            new Uri("https://localhost:44339/signin-oidc")
+                        },
                         Permissions =
                         {
                             Permissions.Endpoints.Authorization,
