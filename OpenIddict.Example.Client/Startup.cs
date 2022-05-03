@@ -41,6 +41,7 @@ namespace OpenIddict.Example.Client
                 options.Authority = "https://localhost:7213/";
 
                 options.Scope.Add("openid");
+                options.Scope.Add("openiddict_resource");
 
                 // Disable the built-in JWT claims mapping feature.
                 options.MapInboundClaims = false;

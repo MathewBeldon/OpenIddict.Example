@@ -65,6 +65,11 @@ namespace OpenIddict.Example.IdP.Server
                     options.AddDevelopmentEncryptionCertificate()
                            .AddDevelopmentSigningCertificate();
 
+                    //options
+                    //     .AddEphemeralEncryptionKey()
+                    //     .AddEphemeralSigningKey()
+                    //     .DisableAccessTokenEncryption();
+
                     options.RequireProofKeyForCodeExchange();
 
                     options.UseAspNetCore()
@@ -75,6 +80,7 @@ namespace OpenIddict.Example.IdP.Server
                            .EnableUserinfoEndpointPassthrough()
                            .EnableVerificationEndpointPassthrough()
                            .DisableTransportSecurityRequirement();
+
 
                 })
 
@@ -89,6 +95,7 @@ namespace OpenIddict.Example.IdP.Server
                     // to reject access tokens retrieved from a revoked authorization code.
                     options.EnableAuthorizationEntryValidation();
                 });
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
             services.AddHostedService<Worker>();
         }
