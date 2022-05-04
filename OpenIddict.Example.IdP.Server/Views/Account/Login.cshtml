@@ -9,9 +9,7 @@
 @{
     ViewData["Title"] = "Log in";
 }
-
-<h2>@ViewData["Title"].</h2>
-<div class="row">
+@*<div class="row">
     <div class="col-md-8">
         <section>
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
@@ -48,7 +46,7 @@
                 <p>
                     <a asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]">Register as a new user?</a>
                 </p>
-                <p>
+                @*<p>
                     <a asp-action="ForgotPassword">Forgot your password?</a>
                 </p>
             </form>
@@ -85,8 +83,41 @@
             }
         </section>
     </div>
-</div>
+</div>*@
 
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-}
+
+<main class="signup-container">
+    <h1 class="heading-primary">Log in<span class="span-blue">.</span></h1>
+    <p class="text-mute">Enter your credentials to access your account.</p>
+    <div class="login-wrapper">
+        <a href="#" class="btn btn-google">
+            <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" />
+            Log In with Google
+        </a>
+        <div class="line-breaker">
+            <span class="line"></span>
+            <span>or</span>
+            <span class="line"></span>
+        </div>
+    </div>
+    
+    <form class="signup-form">
+        <label class="inp">
+            <input asp-for="Email" type="email" class="input-text" placeholder="&nbsp;">
+            <label asp-for="Email" class="label"></label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+            <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+        </label>
+        <label class="inp">
+            <input asp-for="Password" type="password" class="input-text" placeholder="&nbsp;" id="password">
+            <label asp-for="Password" class="label"></label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+            <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+        </label>
+        <button class="btn btn-login">Login</button>
+    </form>
+    <p class="text-mute"><a asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]">Register as a new user?</a></p>
+</main>
+<div class="welcome-container">
+    <h1 class="heading-secondary">Welcome to <span class="lg">Planner Buddy!</span></h1>      
+</div>

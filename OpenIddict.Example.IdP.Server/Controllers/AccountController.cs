@@ -94,7 +94,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(AccountController.Login), "Home");
         }
 
         [HttpPost("~/account/externallogin")]
@@ -102,14 +102,11 @@ namespace OpenIddict.Example.IdP.Server.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
-            // Request a redirect to the external login provider.
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
 
-        //
-        // GET: /Account/ExternalLoginCallback
         [HttpGet("~/account/externallogincallback")]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null)
@@ -120,7 +117,6 @@ namespace OpenIddict.Example.IdP.Server.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
-            // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
             {
@@ -184,7 +180,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(AccountController.Login), "Home");
             }
         }
 
