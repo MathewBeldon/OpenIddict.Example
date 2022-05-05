@@ -23,8 +23,6 @@ a {
 
 .container {
     display: grid;
-    grid-template-rows: minmax(min-content, 100vh);
-    grid-template-columns: repeat(2, 50vw);
 }
 
 .heading-secondary {
@@ -48,14 +46,15 @@ a {
 
 .signup-container {
     width: 100vw;
-    padding: 10rem 10rem;
-    align-items: flex-start;
-    justify-content: flex-start;
-    grid-column: 1 / 2;
+    padding: 5rem 5rem;
+    align-items: center;
+    grid-column: 1;
     grid-row: 1;
 }
 
 .signup-form {
+    display: flex;
+    align-items: flex-start;
     max-width: 45rem;
     width: 100%;
 }
@@ -143,31 +142,26 @@ a {
     cursor: pointer;
 }
 
-.btn-google {
+.btn-external {
     color: #222;
     background: #fff;
     border: solid 1px #eee;
     padding: 1.5rem;
+    margin-top: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 1px 2px #00000020;
 }
 
-    .btn-google img {
-        width: 3rem;
+    .btn-external img {
+        height: 1.5rem;
         margin-right: 1rem;
     }
 
 .login-wrapper {
     max-width: 45rem;
     width: 100%;
-}
-
-.line-breaker .line {
-    width: 50%;
-    height: 1px;
-    background: #eee;
 }
 
 .line-breaker {
@@ -178,20 +172,16 @@ a {
     margin: 3rem 0;
 }
 
+    .line-breaker .line {
+        width: 50%;
+        height: 1px;
+        background: #eee;
+    }
+
     .line-breaker span:nth-child(2) {
         margin: 0 2rem;
     }
 
-.welcome-container {
-    background: #eeeeee75;
-    grid-column: 2 / 3;
-    grid-row: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 10rem;
-}
 
 .lg {
     font-size: 6rem;
