@@ -17,12 +17,13 @@ body {
 }
 
 a {
-    color: #2196f3;
+    color: #1e6091;
     text-decoration: none;
 }
 
 .container {
     display: grid;
+    height: 100vh;
 }
 
 .heading-secondary {
@@ -33,8 +34,11 @@ a {
     font-size: 5rem;
 }
 
-.span-blue {
-    color: #2196f3;
+.span-accent {
+    color: #1e6091;
+    font-size: 2rem;
+    padding-left: 1rem;
+    vertical-align: middle;
 }
 
 .signup-container,
@@ -61,6 +65,7 @@ a {
 
 .text-mute {
     color: #aaa;
+    padding: 0.5rem 0rem;
 }
 
 .input-text {
@@ -68,21 +73,21 @@ a {
     font-size: 1.8rem;
     padding: 3rem 5rem 1rem 2rem;
     border: none;
-    border-radius: 2rem;
+    border-radius: 0.5rem;
     background: #eee;
     width: 100%;
 }
 
     .input-text:focus {
-        outline-color: #2196f3;
+        outline-color: #1e6091;
     }
 
 .btn {
     padding: 2rem 3rem;
     border: none;
-    background: #2196f3;
+    background: #1e6091;
     color: #fff;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     cursor: pointer;
     font-family: inherit;
     font-weight: 500;
@@ -92,7 +97,6 @@ a {
 .btn-login {
     align-self: flex-end;
     width: 100%;
-    margin-top: 2rem;
     box-shadow: 0 5px 5px #00000020;
 }
 
@@ -101,11 +105,12 @@ a {
     }
 
     .btn-login:hover {
-        background: #2180f9;
+        background: #184e77;
     }
 
 .inp {
     position: relative;
+    width: 100%;
 }
 
 .label {
@@ -127,7 +132,7 @@ a {
 }
 
 .input-text:focus + .label {
-    color: #2196f3;
+    color: #1e6091;
 }
 
 .input-icon {
@@ -152,6 +157,7 @@ a {
     justify-content: center;
     align-items: center;
     box-shadow: 0 1px 2px #00000020;
+    width: 100%;
 }
 
     .btn-external img {
@@ -181,15 +187,6 @@ a {
     .line-breaker span:nth-child(2) {
         margin: 0 2rem;
     }
-
-
-.lg {
-    font-size: 6rem;
-}
-
-.welcome-container img {
-    width: 100%;
-}
 
 @media only screen and (max-width: 700px) {
     html {
