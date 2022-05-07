@@ -6,7 +6,7 @@ namespace OpenIddict.Example.IdP.Server.ServiceCollection
 {
     internal static class OpenIddictRegistration
     {
-        internal static IServiceCollection AddOpenIddictService(this IServiceCollection services)
+        internal static IServiceCollection AddOpenIddictService(this IServiceCollection services, IConfiguration configuration)
         {
             services
                 .AddOpenIddict()
@@ -35,8 +35,9 @@ namespace OpenIddict.Example.IdP.Server.ServiceCollection
                         .AllowPasswordFlow()
                         .AllowRefreshTokenFlow();
 
-                    options.AddEncryptionKey(new SymmetricSecurityKey(
-                        Convert.FromBase64String("DRjd/GnduI3Efzen9V9BvbNUfc/VKgXltV7Kbk9sMkY=")));
+                    options
+                        .AddEncryptionKey(new SymmetricSecurityKey(
+                            Convert.FromBase64String(configuration.GetValue<string>("SymmetricSecurityKey"))));
 
                     options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "openiddict_resource");
 

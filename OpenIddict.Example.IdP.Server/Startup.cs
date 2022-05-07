@@ -15,7 +15,7 @@ namespace OpenIddict.Example.IdP.Server
 
             services.AddExternalAuthenticationService(Configuration);
 
-            services.AddOpenIddictService();
+            services.AddOpenIddictService(Configuration);
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
             services.AddHostedService<Worker>();
