@@ -11,7 +11,7 @@ using OpenIddict.Example.IdP.Persistence;
 namespace OpenIddict.Example.IdP.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220423205514_InitialMigration")]
+    [Migration("20220508175913_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

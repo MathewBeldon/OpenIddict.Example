@@ -24,7 +24,7 @@ namespace OpenIddict.Example.Client
             {
                 // Note: these settings must match the application details
                 // inserted in the database at the server level.
-                options.ClientId = "postman2";
+                options.ClientId = "openiddict_example_client";
                 //options.ClientSecret = "postman-secret";
 
                 options.RequireHttpsMetadata = false;
@@ -41,7 +41,7 @@ namespace OpenIddict.Example.Client
                 options.Authority = "https://localhost:7213/";
 
                 options.Scope.Add("openid");
-                options.Scope.Add("openiddict_resource");
+                options.Scope.Add("openiddict_example_resource");
 
                 // Disable the built-in JWT claims mapping feature.
                 options.MapInboundClaims = false;
