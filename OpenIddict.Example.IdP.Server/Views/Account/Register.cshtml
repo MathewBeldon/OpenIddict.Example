@@ -9,46 +9,13 @@
     ViewData["Title"] = "Register";
 }
 
-@*<form asp-controller="Account"  class="form-horizontal" role="form">
-    <h4>Create a new account.</h4>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Register</button>
-        </div>
-    </div>
-    <p>
-        <a asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]"></a>
-    </p>
-</form>*@
-
+<h1><span class="span-accent">[</span>OpenIddict.Example<span class="span-accent">]</span></h1>
 <div class="container right-panel-active" id="container">
+  
   <div class="form-container sign-up-container">
     <div class="form-wrapper">
 
-      <h1>Register</h1>
+      <h2>Register</h2>
       
     <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["returnUrl"]" method="post" role="form">
       
@@ -99,68 +66,3 @@
     </div>
   </div>
 </div>
-@*<main class="signup-container">
-    <div class="login-wrapper">
-        <h1 class="heading-primary">Register<span class="span-accent">[OpenIddict.Example]</span></h1>        
-        <p class="text-mute">Create a new account.</p>
-        <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["returnUrl"]" method="post" role="form">
-            <label class="inp">
-                <input asp-for="Email" type="email" class="input-text" placeholder="&nbsp;">
-                <label asp-for="Email" class="label"></label>
-                <span asp-validation-for="Email" class="text-danger"></span>
-                <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
-            </label>
-            <label class="inp">
-                <input asp-for="Password" type="password" class="input-text" placeholder="&nbsp;" id="password">
-                <label asp-for="Password" class="label"></label>
-                <span asp-validation-for="Password" class="text-danger"></span>
-                <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
-            </label>
-            <label class="inp">
-                <input asp-for="ConfirmPassword" type="password" class="input-text" placeholder="&nbsp;" id="confirmPassword">
-                <label asp-for="ConfirmPassword" class="label"></label>
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
-            </label>
-            <button type="submit" class="btn btn-login">Register</button>
-        </form>
-        <p class="text-mute"><a asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]">Already have an account?</a></p>
-    
-        <div class="line-breaker">
-            <span class="line"></span>
-            <span>or</span>
-            <span class="line"></span>
-        </div>
-        @{
-            var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (loginProviders.Count == 0)
-            {
-                <div>
-                    <p>
-                        There are no external authentication services configured.
-                    </p>
-                </div>
-            }
-            else
-            {
-                @foreach (var provider in loginProviders)
-                {
-                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
-                        @if (provider.Name.ToLower() == "github") 
-                        {
-                            <button type="submit" class="btn btn-external" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
-                                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Logo.png" />
-                            </button>
-                        }
-                        @if (provider.Name.ToLower() == "okta") 
-                        {
-                            <button type="submit" class="btn btn-external" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
-                                <img src="https://www.okta.com/sites/default/files/media/image/2021-03/Logo_Okta_Blue_RGB.png" />
-                            </button>
-                        }     
-                    </form>
-                }
-            }
-        }
-    </div>
-</main>*@

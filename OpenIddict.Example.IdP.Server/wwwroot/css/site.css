@@ -232,6 +232,7 @@ body {
 h1 {
     font-weight: bold;
     margin: 2rem;
+    color: #bbb;
 }
 
 h2 {
@@ -332,7 +333,6 @@ input {
     width: 50%;
     height: 100%;
     overflow: hidden;
-    transition: transform 0.6s ease-in-out;
     z-index: 100;
 }
 
@@ -485,3 +485,9 @@ footer {
     .btn-external img {
         height: 1rem;
     }
+
+.span-accent {
+    color: #52796f;
+    font-size: 2.2rem;
+    padding: 0.2rem;
+}
