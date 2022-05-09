@@ -11,7 +11,7 @@ using OpenIddict.Example.IdP.Persistence;
 namespace OpenIddict.Example.IdP.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220508175913_InitialMigration")]
+    [Migration("20220508204155_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -365,6 +365,14 @@ namespace OpenIddict.Example.IdP.Persistence.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");

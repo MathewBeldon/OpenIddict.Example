@@ -19,9 +19,11 @@
       
     <form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["returnUrl"]" method="post" role="form">
       
-      <input asp-for="Email" type="email" placeholder="Email">
-      <input asp-for="Password" type="password" placeholder="Password">
-      <input asp-for="ConfirmPassword" type="password" placeholder="Confirm Password">
+      <input asp-for="Email" type="email" placeholder="Email"/>
+      <input asp-for="FirstName" type="text" placeholder="First Name"/>
+      <input asp-for="LastName" type="text " placeholder="Last Name"/>
+      <input asp-for="Password" type="password" placeholder="Password"/>
+      <input asp-for="ConfirmPassword" type="password" placeholder="Confirm Password"/>
       <button type="submit" class="btn btn-submit">Register</button>
       <p class="text-mute"><a asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]">Already have an account?</a></p>
     </form>

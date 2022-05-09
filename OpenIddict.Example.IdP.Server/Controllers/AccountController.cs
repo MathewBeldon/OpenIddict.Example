@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Example.IdP.Persistence.Models;
 using OpenIddict.Example.IdP.Server.ViewModels.Account;
-using OpenIddict.Sandbox.AspNetCore.Server.ViewModels.Account;
 using System.Security.Claims;
 
 namespace OpenIddict.Example.IdP.Server.Controllers
@@ -76,8 +75,16 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = model.Email, Email = model.Email };
+                var user = new AppUser 
+                { 
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
+                };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
@@ -148,11 +155,21 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             if (ModelState.IsValid)
             {
                 var info = await _signInManager.GetExternalLoginInfoAsync();
-                if (info is null)
+                var email = info.Principal.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault().Value;
+
+                if (info is null || email != model.Email)
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new AppUser { UserName = model.Email, Email = model.Email };
+
+                var user = new AppUser 
+                { 
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName 
+                };
+
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

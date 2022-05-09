@@ -1,32 +1,43 @@
-﻿@using OpenIddict.Sandbox.AspNetCore.Server.ViewModels.Account
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Identity
+@using OpenIddict.Example.IdP.Persistence.Models
+@using OpenIddict.Example.IdP.Server.ViewModels.Account
+@inject SignInManager<AppUser> SignInManager
 @model ExternalLoginConfirmationViewModel
 @{
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"].</h2>
-<h3>Associate your @ViewData["LoginProvider"] account.</h3>
+<h1><span class="span-accent">[</span>OpenIddict.Example<span class="span-accent">]</span></h1>
+<div class="container right-panel-active" id="container">
 
-<form asp-controller="Account" asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" role="form">
-    <h4>Association Form</h4>
-    <hr />
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-container sign-up-container">
+        <div class="form-wrapper">
 
-    <p class="text-info">
-        You've successfully authenticated with <strong>@ViewData["LoginProvider"]</strong>.
-        Please enter a user name for this site below and click the Register button to finish
-        logging in.
-    </p>
-    <div class="form-group">
-        <label asp-for="Email" class="col-md-2 control-label"></label>
-        <div class="col-md-10">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+            <h2>Associate your @ViewData["LoginProvider"] account.</h2>
+
+            <form asp-controller="Account" asp-action="ExternalLoginConfirmation" asp-route-returnUrl="@ViewData["returnUrl"]" method="post" role="form">
+
+                <input asp-for="Email" type="email" placeholder="Email" />
+                <input asp-for="FirstName" type="text" placeholder="First Name" />
+                <input asp-for="LastName" type="text" placeholder="Last Name" />
+
+                <button type="submit" class="btn btn-submit">Register</button>
+            </form>
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <button type="submit" class="btn btn-default">Register</button>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <div class="social-container">
+                    <p>
+                        You've successfully authenticated with @ViewData["LoginProvider"].
+                        Please enter your details and click the register button to finish
+                        logging in.
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-</form>
+</div>
