@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using OpenIddict.Abstractions;
 using OpenIddict.Example.IdP.Persistence.Models;
 using OpenIddict.Example.IdP.Server.ViewModels.Account;
 using System.Security.Claims;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace OpenIddict.Example.IdP.Server.Controllers
 {
@@ -12,6 +14,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
+        private readonly ClaimsIdentity _claimsIdentity;
 
         public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
         {
@@ -33,7 +36,6 @@ namespace OpenIddict.Example.IdP.Server.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
@@ -84,7 +86,6 @@ namespace OpenIddict.Example.IdP.Server.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
-
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
@@ -155,17 +156,16 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             if (ModelState.IsValid)
             {
                 var info = await _signInManager.GetExternalLoginInfoAsync();
-                var email = info.Principal.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault().Value;
 
-                if (info is null || email != model.Email)
+                if (info is null)
                 {
                     return View("ExternalLoginFailure");
                 }
 
                 var user = new AppUser 
                 { 
-                    UserName = model.Email,
-                    Email = model.Email,
+                    UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                    Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                     FirstName = model.FirstName,
                     LastName = model.LastName 
                 };

@@ -5,6 +5,7 @@ namespace OpenIddict.Example.IdP.Server.ViewModels.Account;
 public sealed class ExternalLoginConfirmationViewModel
 {
     [Required]
+    [EmailAddress]
     [Display(Name = "Email")]
     public string Email { get; init; }
 

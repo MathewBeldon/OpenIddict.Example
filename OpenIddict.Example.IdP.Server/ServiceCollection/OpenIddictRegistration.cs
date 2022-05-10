@@ -39,7 +39,11 @@ namespace OpenIddict.Example.IdP.Server.ServiceCollection
                         .AddEncryptionKey(new SymmetricSecurityKey(
                             Convert.FromBase64String(configuration.GetValue<string>("SymmetricSecurityKey"))));
 
-                    options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "openiddict_resource");
+                    options
+                        .RegisterClaims(configuration.GetSection("OpenIddict:Claims").Get<string[]>());
+
+                    options
+                        .RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles, "openiddict_resource");
 
                     options
                         .AddDevelopmentEncryptionCertificate()

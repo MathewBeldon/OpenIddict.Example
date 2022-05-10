@@ -1,4 +1,6 @@
-﻿namespace OpenIddict.Example.IdP.Server.ServiceCollection
+﻿using Microsoft.AspNetCore.Authentication;
+
+namespace OpenIddict.Example.IdP.Server.ServiceCollection
 {
     internal static class ExternalAuthenticationRegistration
     {
@@ -12,7 +14,7 @@
                     .AddGitHub(options =>
                     {
                         options.ClientId = github["ClientId"];
-                        options.ClientSecret = github["ClientSecret"];
+                        options.ClientSecret = github["ClientSecret"];                        
                     });
             }
 

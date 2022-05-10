@@ -19,7 +19,7 @@
 
             <form asp-controller="Account" asp-action="ExternalLoginConfirmation" asp-route-returnUrl="@ViewData["returnUrl"]" method="post" role="form">
 
-                <input asp-for="Email" type="email" placeholder="Email" />
+                <input asp-for="Email" type="email" placeholder="Email" readonly/>
                 <input asp-for="FirstName" type="text" placeholder="First Name" />
                 <input asp-for="LastName" type="text" placeholder="Last Name" />
 

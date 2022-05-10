@@ -42,13 +42,12 @@ namespace OpenIddict.Example.Client
 
                 options.Scope.Add("openid");
                 options.Scope.Add("openiddict_example_resource");
+                options.Scope.Add("profile");
 
                 // Disable the built-in JWT claims mapping feature.
                 options.MapInboundClaims = false;
 
                 options.TokenValidationParameters.NameClaimType = "name";
-                options.TokenValidationParameters.NameClaimType = "given_name";
-                options.TokenValidationParameters.NameClaimType = "family_name";
 
                 options.TokenValidationParameters.RoleClaimType = "role";
             });
