@@ -118,6 +118,9 @@ namespace OpenIddict.Example.IdP.Server.Controllers
                     principal.SetScopes(request.GetScopes());
                     principal.SetResources(await _scopeManager.ListResourcesAsync(principal.GetScopes()).ToListAsync());
 
+                    principal.SetClaim("given_name", user.FirstName);
+                    principal.SetClaim("family_name", user.LastName);
+
                     var authorization = authorizations.LastOrDefault();
                     if (authorization == null)
                     {
@@ -285,6 +288,22 @@ namespace OpenIddict.Example.IdP.Server.Controllers
             switch (claim.Type)
             {
                 case Claims.Name:
+                    yield return Destinations.AccessToken;
+
+                    if (principal.HasScope(Scopes.Profile))
+                        yield return Destinations.IdentityToken;
+
+                    yield break;
+
+                case Claims.GivenName:
+                    yield return Destinations.AccessToken;
+
+                    if (principal.HasScope(Scopes.Profile))
+                        yield return Destinations.IdentityToken;
+
+                    yield break;
+
+                case Claims.FamilyName:
                     yield return Destinations.AccessToken;
 
                     if (principal.HasScope(Scopes.Profile))

@@ -33,7 +33,6 @@ namespace OpenIddict.Example.Client.Controllers
 
             using var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7165/api/message");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             using var response = await client.SendAsync(request, cancellationToken);
             response.EnsureSuccessStatusCode();
 

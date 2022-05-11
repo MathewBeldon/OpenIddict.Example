@@ -170,6 +170,7 @@ namespace OpenIddict.Example.IdP.Server.Controllers
                     LastName = model.LastName 
                 };
 
+
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

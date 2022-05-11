@@ -15,5 +15,4 @@ namespace OpenIddict.Example.API.Controllers
             return Content($"{User.Identity.Name} has been successfully authenticated.");
         }
     }
-
 }

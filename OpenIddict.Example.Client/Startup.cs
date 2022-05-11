@@ -48,7 +48,6 @@ namespace OpenIddict.Example.Client
                 options.MapInboundClaims = false;
 
                 options.TokenValidationParameters.NameClaimType = "name";
-
                 options.TokenValidationParameters.RoleClaimType = "role";
             });
 

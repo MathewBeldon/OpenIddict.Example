@@ -1,6 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using OpenIddict.Example.API.ServiceCollection;
 using OpenIddict.Validation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace OpenIddict.Example.API
 {
@@ -19,19 +22,17 @@ namespace OpenIddict.Example.API
             services.AddSwaggerService();
             services.AddControllers();
 
-            services.AddOpenIddict()
+            services.AddOpenIddict()               
                 .AddValidation(options =>
                 {
                     options.SetIssuer("https://localhost:7213/");
                     options.AddAudiences("resource_server_api");
-
+                    
                     options
                         .AddEncryptionKey(new SymmetricSecurityKey(
                             Convert.FromBase64String(Configuration.GetValue<string>("SymmetricSecurityKey"))));
-                    var x = Configuration.GetValue<string>("SymmetricSecurityKey");
-                    
-                    options.UseSystemNetHttp();
-
+                   
+                    options.UseSystemNetHttp();                    
                     options.UseAspNetCore();
                 });
 
