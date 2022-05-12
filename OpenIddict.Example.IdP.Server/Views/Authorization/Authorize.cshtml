@@ -2,20 +2,42 @@
 @using OpenIddict.Example.IdP.Server.ViewModels.Authorisation
 @model AuthoriseViewModel
 
-<div class="jumbotron">
-    <h1>Authorization</h1>
+@{
+    ViewData["Title"] = "Authorization";
+}
 
-    <p class="lead text-left">Do you want to grant <strong>@Model.ApplicationName</strong> access to your data? (scopes requested: @Model.Scope)</p>
+<h1><span class="span-accent">[</span>OpenIddict.Example<span class="span-accent">]</span></h1>
+<div class="container right-panel-active" id="container">
 
-    <form asp-controller="Authorization" asp-action="Authorize" method="post">
-        @* Flow the request parameters so they can be received by the Accept/Reject actions: *@
-        @foreach (var parameter in Context.Request.HasFormContentType ?
-            (IEnumerable<KeyValuePair<string, StringValues>>) Context.Request.Form : Context.Request.Query)
-        {
-            <input type="hidden" name="@parameter.Key" value="@parameter.Value" />
-        }
+    <div class="form-container sign-up-container">
+        <div class="form-wrapper">
 
-        <input class="btn btn-lg btn-success" name="submit.Accept" type="submit" value="Yes" />
-        <input class="btn btn-lg btn-danger" name="submit.Deny" type="submit" value="No" />
-    </form>
+            <h2>Authorize @Model.ApplicationName</h2>
+
+            <form asp-controller="Authorization" asp-action="Authorize" method="post">
+                @* Flow the request parameters so they can be received by the Accept/Reject actions: *@
+                @foreach (var parameter in Context.Request.HasFormContentType ?
+                (IEnumerable<KeyValuePair<string, StringValues>>)Context.Request.Form : Context.Request.Query)
+                {
+                    <input type="hidden" name="@parameter.Key" value="@parameter.Value" />
+                }
+                <button type="submit" class="btn btn-submit" name="submit.Accept" value="Yes">Yes</button>
+                <button type="submit" class="btn btn-submit" name="submit.Deny" value="No">No</button>
+            </form>
+        </div>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <div class="social-container">
+                    <p>
+                        Do you want to grant @Model.ApplicationName access to your data? 
+                    </p>
+                    <p>
+                        scopes requested: @Model.Scope
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

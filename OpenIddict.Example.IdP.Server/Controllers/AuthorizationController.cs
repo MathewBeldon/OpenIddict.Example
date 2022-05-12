@@ -223,11 +223,11 @@ namespace OpenIddict.Example.IdP.Server.Controllers
         [HttpPost("~/connect/authorize"), ValidateAntiForgeryToken]
         public IActionResult Deny() => Forbid(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
-        //[HttpGet("~/connect/logout")]
-        //public IActionResult Logout() => View();
+        [HttpGet("~/connect/logout")]
+        public IActionResult Logout() => View();
 
-        [ActionName(nameof(Logout)), HttpGet("~/connect/logout")]
-        public async Task<IActionResult> Logout()
+        [ActionName(nameof(Logout)), HttpPost("~/connect/logout"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogoutPost()
         {
             await _signInManager.SignOutAsync();
 
